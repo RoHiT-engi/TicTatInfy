@@ -107,7 +107,5 @@ if((document.getElementById("demo2").innerHTML == document.getElementById("demo4
     
 }
 
-function createSession(){
-    
-}
+
 
