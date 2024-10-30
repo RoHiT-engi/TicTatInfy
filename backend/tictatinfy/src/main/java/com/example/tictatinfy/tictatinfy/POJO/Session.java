@@ -1,10 +1,13 @@
 package com.example.tictatinfy.tictatinfy.POJO;
 
+import org.springframework.web.socket.WebSocketSession;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
+import java.util.HashSet;
 
 @Entity
 public class Session {
@@ -23,7 +26,7 @@ public class Session {
     }
 
     Session() {
-        
+
     }
 
     public int[][] updateGrid(int i, int j, int val) {
@@ -32,7 +35,7 @@ public class Session {
         }
         return grid;
     }
-    
+
     public Long getId() {
         return this.id;
     }
@@ -41,7 +44,7 @@ public class Session {
         return grid;
     }
 
-    public void setGrid(int[][] grid){
+    public void setGrid(int[][] grid) {
         this.grid = grid;
     }
 
@@ -53,16 +56,20 @@ public class Session {
         return player2;
     }
 
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
+    }
+
     public String getSession_id() {
         return sessionid;
     }
 
     public String toString() {
-        return player1 + " " + player2 + " " + sessionid;
+        return player1 + " " + player2 + " " + sessionid + " ";
     }
 
     public void setSessionId(String ranSessionId) {
         this.sessionid = ranSessionId;
     }
-    
+
 }

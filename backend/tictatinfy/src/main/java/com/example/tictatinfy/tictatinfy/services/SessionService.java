@@ -36,6 +36,7 @@ public class SessionService {
         return ls;
     }
 
+
     public String createSession(Session session) {
         String ranSessionId = this.getSaltString();
         while (this.checkValidSession(ranSessionId)) {
@@ -69,7 +70,17 @@ public class SessionService {
         List<Session> allCustomer = this.getSession(Session_id);
         for (Session temp : allCustomer) {
             temp.updateGrid(i, j, val);
+            repo.save(temp);
         }
         return allCustomer;
+    }
+
+    public List<Session> createSessionP2(String Session_id,String p2) {
+        List<Session> ls = this.getSession(Session_id);
+        for (Session i : ls) {
+            i.setPlayer2(p2);
+            repo.save(i);
+        }
+        return ls;
     }
 }
