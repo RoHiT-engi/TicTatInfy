@@ -49,3 +49,7 @@ body {
 .grid-item:hover {
   background-color: #333;
 }
+
+#name-from{
+  height: 100vh;
+  }

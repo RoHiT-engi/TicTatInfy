@@ -1,7 +1,5 @@
 package com.example.tictatinfy.tictatinfy.POJO;
 
-import org.springframework.web.socket.WebSocketSession;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +16,7 @@ public class Session {
     private String sessionid;
     private String player1;
     private String player2;
+    private String LastPlayed;
     private int[][] grid;
 
     Session(String player1, String player2) {
@@ -34,6 +33,14 @@ public class Session {
             this.grid[i][j] = val;
         }
         return grid;
+    }
+
+    public String getLastPlayed() {
+        return LastPlayed;
+    }
+
+    public void setLastPlayed(String lastPlayed) {
+        LastPlayed = lastPlayed;
     }
 
     public Long getId() {

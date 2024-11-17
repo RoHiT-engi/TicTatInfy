@@ -55,16 +55,21 @@ function createSocketChannel(sessionID){
 
     socket.onmessage = function(event) {
         let cleanedString = event.data;
-        console.log(cleanedString);
+        localStorage.setItem("lastPlayed",cleanedString.charAt(cleanedString.length -1,10));
+        console.log(cleanedString.charAt(cleanedString.length -1,10))
+        cleanedString = cleanedString.split("]]")[0] + ']]';
+        console.log(cleanedString)
         const parsedArray = JSON.parse(cleanedString);
         const integerArray = parsedArray.map(row =>
             row.map(element => parseInt(element, 10))
         );
+        console.log("fdvdvdvv")
+        console.log(parsedArray);
         fillUpGrid(integerArray)
-        console.log(integerArray);
     };
 
     socket.onclose = function() {
+        localStorage.clear();
         console.log("Connection closed.");
     };
 
@@ -74,13 +79,10 @@ function createSocketChannel(sessionID){
 }
 
 function sendMessage(message) {
-    // const message = document.getElementById("messageInput").value;
     if (!message) {
         alert("Please enter a message to send.");
         return;
     }
-    // Send message to the server via WebSocket
     console.log(socket);
     socket.send(message);
-    console.log("Message sent to server: " + message);
 }

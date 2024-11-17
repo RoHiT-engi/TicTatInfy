@@ -39,7 +39,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             Session updated = service.updateGrid(sessionID, i, j, val).get(0);
             HashSet<WebSocketSession> hash = sessionMap.get(sessionID);
             for (WebSocketSession z : hash) {
-                z.sendMessage(new TextMessage(Arrays.deepToString(updated.getGrid())));
+                z.sendMessage(new TextMessage(Arrays.deepToString(updated.getGrid()) + service.getLastPlayedPlayer(sessionID)));
             }
         } else {
             System.out.println("Invalid Session Request :  " + sessionID);
@@ -48,9 +48,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println(session);
         String[] str = session.getUri().getQuery().split("=");
-        System.out.println(Arrays.toString(str));
         if (str[0].equals("id") && service.checkValidSession(str[1])) {
             if (!sessionMap.containsKey(str[1])) {
                 sessionMap.put(str[1], new HashSet<>());
@@ -58,21 +56,20 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             sessionMap.get(str[1]).add(session);
         }
         System.err.println("In conn estableis");
-        System.out.println(session);
+        System.out.println(sessionMap.get(str[1]));
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         System.out.println("Connection closed: " + session.getId() + " " + status + " " + session.getUri());
-        String sessionID = session.getUri().getQuery().split("=")[1];
-        if (session.getUri().getQuery().split("=")[0].equals("id") && service.checkValidSession(sessionID)
-                && sessionMap.containsKey(sessionID)) {
-            if (sessionMap.get(sessionID).isEmpty()) {
-                sessionMap.remove(sessionID);
+        String[] str = session.getUri().getQuery().split("=");
+        if (str[0].equals("id") && service.checkValidSession(str[1]) && sessionMap.containsKey(str[1])) {
+            if (sessionMap.get(str[1]).isEmpty()) {
+                sessionMap.remove(str[1]);
             }
-            for (WebSocketSession i : sessionMap.get(sessionID)) {
-                if (i.equals(session)) {
-                    sessionMap.get(sessionID).remove(i);
+            for (WebSocketSession i : sessionMap.get(str[1])) {
+                if (i.getId().equals(session.getId())) {
+                    sessionMap.get(str[1]).remove(i);
                 }
             }
         }

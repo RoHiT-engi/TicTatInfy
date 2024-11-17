@@ -1,5 +1,5 @@
-var player =currPlayerXorO();
 window.onload = initializePage;
+var flag = false;
 class Queue {
     constructor() {
         this.items = {}
@@ -33,138 +33,133 @@ let str = queue.printQueue;
 let erase = ""
 
 function myFunction(id) {
-    if(currPlayerXorO() == "X" && document.getElementById(id).innerHTML == "" && player == "X")
+    if(currPlayerXorO() == "X" && document.getElementById(id).innerHTML == "" && localStorage.getItem("lastPlayed") == "O")
     {
         document.getElementById(id).innerHTML = "X";
         queue.enqueue(id);
-        player = "O";
-        updateCell(id,1);
+        console.log("andhar hu")
+        localStorage.setItem("lastPlayed",'0')
     }
-    else if(currPlayerXorO() == "O" && document.getElementById(id).innerHTML == "" && player == "O")
-        {
+    else if(currPlayerXorO() == "O" && document.getElementById(id).innerHTML == "" && localStorage.getItem("lastPlayed") == "X")
+    {
         document.getElementById(id).innerHTML = "O";
         queue.enqueue(id);
-        player = "X";
-        updateCell(id,0);
+        
+        console.log("andhar hu dcxsdc")
+        localStorage.setItem("lastPlayed",'1')
     }                                    
-                                    
-         
     if(queue.size() > 6)
     {
         erase = queue.dequeue();
+        updateCell(erase,-1)
         document.getElementById(erase).innerHTML = "";
-    } 
+    }
     checkWin();
     console.log(str)  
 }
 
-    function checkWin(){
+function checkWin(){
 // [0,1,2]
 if((document.getElementById("demo0").innerHTML == document.getElementById("demo1").innerHTML) && document.getElementById("demo1").innerHTML == document.getElementById("demo2").innerHTML && document.getElementById("demo1").innerHTML !="" )
 {
     let win =  document.getElementById("demo0").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [3,4,5]
 if((document.getElementById("demo3").innerHTML == document.getElementById("demo4").innerHTML) && document.getElementById("demo4").innerHTML == document.getElementById("demo5").innerHTML && document.getElementById("demo4").innerHTML !="" )
 {
     let win =  document.getElementById("demo3").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [6,7,8] 
 if((document.getElementById("demo6").innerHTML == document.getElementById("demo7").innerHTML) && document.getElementById("demo7").innerHTML == document.getElementById("demo8").innerHTML && document.getElementById("demo7").innerHTML !="" )
 {
     let win =  document.getElementById("demo6").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [0,3,6] 
 if((document.getElementById("demo0").innerHTML == document.getElementById("demo3").innerHTML) && document.getElementById("demo3").innerHTML == document.getElementById("demo6").innerHTML && document.getElementById("demo6").innerHTML !="" )
 {
     let win =  document.getElementById("demo0").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [1,4,7] 
 if((document.getElementById("demo4").innerHTML == document.getElementById("demo1").innerHTML) && document.getElementById("demo1").innerHTML == document.getElementById("demo7").innerHTML && document.getElementById("demo1").innerHTML !="" )
 {
     let win =  document.getElementById("demo1").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [2,5,8] 
 if((document.getElementById("demo2").innerHTML == document.getElementById("demo5").innerHTML) && document.getElementById("demo5").innerHTML == document.getElementById("demo8").innerHTML && document.getElementById("demo5").innerHTML !="" )
 {
     let win =  document.getElementById("demo2").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [0,4,8]
 if((document.getElementById("demo0").innerHTML == document.getElementById("demo4").innerHTML) && document.getElementById("demo4").innerHTML == document.getElementById("demo8").innerHTML && document.getElementById("demo4").innerHTML !="" )
 {
     let win =  document.getElementById("demo0").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
 // [2,4,6]
 if((document.getElementById("demo2").innerHTML == document.getElementById("demo4").innerHTML) && document.getElementById("demo4").innerHTML == document.getElementById("demo6").innerHTML && document.getElementById("demo4").innerHTML !="" )
 {
     let win =  document.getElementById("demo2").innerHTML;
-    document.getElementById("won").innerHTML = win + document.getElementById("name").value ;
+    document.getElementById("won").innerHTML = win;flag = true;return;
 }
     
 }
 
-function initializePage(){
-    console.log(sessionStorage.getItem("game"));
-    createSocketChannel(sessionStorage.getItem("sessionID"));
-    player = "X";
-    const gridData = JSON.parse(sessionStorage.getItem('game'));
-    fillUpGrid(gridData);
+async function initializePage(){
+    createSocketChannel(localStorage.getItem("sessionID"));
+    const gridData = JSON.parse(localStorage.getItem('game'));
+    await fillUpGrid(gridData);
 }
 
-function fillUpGrid(gridData){
+async function fillUpGrid(gridData){
     var i = 0;
     gridData.forEach(element => {
         element.forEach(elm =>{
-            const id = "demo"+i;
-            if(elm == 0){
-                player = 'O';
-                if(document.getElementById(id).innerHTML == "")
-                    {
-                    document.getElementById(id).innerHTML = "O";
-                    queue.enqueue(id);
-                    player = "X";
-                }
+            if(elm==0){ 
+                document.getElementById("demo"+i).innerHTML = "O";
+                myFunction("demo"+i)
             }else if(elm == 1){
-                player = 'X';
-                if(document.getElementById(id).innerHTML == "")
-                    {
-                        document.getElementById(id).innerHTML = "X";
-                        queue.enqueue(id);
-                        player = "O";
-                    }
+                document.getElementById("demo"+i).innerHTML = "X";
+                myFunction("demo"+i)
             }else{
-                document.getElementById("demo"+i).innerHTML = ''
+                document.getElementById("demo"+i).innerHTML = "";
             }
             i++;
-            // document.getElementById("demo0")
-            if(queue.size() > 6)
-            {
-                erase = queue.dequeue();
-                document.getElementById(erase).innerHTML = "";
-            } 
-            checkWin();
-            console.log(elm+" jioji "+i)
         })
     });
 }
 
 function updateCell(id,value){
-    let lastNumber = parseInt(id.charAt(id.length - 1), 10); 
+    if(flag){
+        alert("Game is Already over");
+        return;
+    }
+    let lastNumber = parseInt(id.charAt(id.length - 1), 10)
     let i = parseInt(lastNumber/3),j = lastNumber%3;
-    sendMessage(i+"/"+j+"/"+value);
-    console.log(lastNumber+" sdsd"+i+" "+j);
+    myFunction(id);
+    if(currPlayerXorO()=='X' && localStorage.getItem("lastPlayed") == "0"){
+        sendMessage(i+"/"+j+"/"+1)
+    }else if(currPlayerXorO()=='O' && localStorage.getItem("lastPlayed") == "1"){
+        sendMessage(i+"/"+j+"/"+0)
+    }
+    if(localStorage.getItem("lastPlayed") == '-1' && currPlayerXorO()=='X'){
+        sendMessage(i+"/"+j+"/"+1);
+    }
+    console.log(currPlayerXorO()+" "+localStorage.getItem("lastPlayed"))
+    if(value == -1){
+        sendMessage(i+"/"+j+"/"+-1)
+    }
+    // console.log(lastNumber+" sdsd"+i+" "+j);
 }
 function currPlayerXorO(){
-    if(sessionStorage.getItem("p1") == sessionStorage.getItem("currName")){
+    if(localStorage.getItem("currName") == 'p1'){
         return "X";
-    }else{
-        return "O"
+    }else if(localStorage.getItem("currName") == 'p2'){
+        return "O";
     }
 }

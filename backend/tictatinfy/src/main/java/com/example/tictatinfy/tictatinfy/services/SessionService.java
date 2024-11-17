@@ -48,6 +48,7 @@ public class SessionService {
             Arrays.fill(i, -1);
         }
         session.setGrid(grid);
+        session.setLastPlayed("-1");
         repo.save(session);
         return ranSessionId;
     }
@@ -70,12 +71,13 @@ public class SessionService {
         List<Session> allCustomer = this.getSession(Session_id);
         for (Session temp : allCustomer) {
             temp.updateGrid(i, j, val);
+            temp.setLastPlayed(val+"");
             repo.save(temp);
         }
         return allCustomer;
     }
 
-    public List<Session> createSessionP2(String Session_id,String p2) {
+    public List<Session> createSessionP2(String Session_id, String p2) {
         List<Session> ls = this.getSession(Session_id);
         for (Session i : ls) {
             i.setPlayer2(p2);
@@ -83,4 +85,9 @@ public class SessionService {
         }
         return ls;
     }
+
+    public String getLastPlayedPlayer(String Session_id) {
+        List<Session> ls = repo.findBySessionid(Session_id);
+        return ls.get(0).getLastPlayed();
+    } 
 }

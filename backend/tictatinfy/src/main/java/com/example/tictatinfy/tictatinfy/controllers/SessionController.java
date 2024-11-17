@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tictatinfy.tictatinfy.POJO.Session;
 import com.example.tictatinfy.tictatinfy.services.SessionService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5500")
@@ -64,4 +66,12 @@ public class SessionController {
         return ResponseEntity.ok(service.updateGrid(id, Integer.valueOf(i), Integer.valueOf(j), Integer.valueOf(val)));
     }
 
+    @GetMapping("/getLastPlayed/{id}")
+    public ResponseEntity<Map<String, String>> getLastPlayed(@PathVariable String id) {
+        String res = service.getLastPlayedPlayer(id);
+        Map<String, String> json = new HashMap<>();
+        json.put("lastPlayed", res);
+        return ResponseEntity.ok(json);
+    }
+    
 }
