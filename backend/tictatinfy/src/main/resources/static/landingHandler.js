@@ -1,4 +1,6 @@
 
+        // let BasseIP = import.meta.env.BasseIP; 
+        console.log(import.meta.env.VITE_API_BASE_URL);
         let sessionId = '';
         let BasseIP = 'http://localhost:8090'
         let creatURI = BasseIP + '/create'

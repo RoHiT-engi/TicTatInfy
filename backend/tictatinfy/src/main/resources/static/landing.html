@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <script type="module" src="landingHandler.js"></script>
+    <script type="module" src="serviceCall.js"></script>
+<head>
+    <title>WebSocket Game</title>
+    <style>
+        /* Basic Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #SessionGo {
+            display: none;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Title Styling */
+        h1 {
+            color: #ffab40;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Input Group Styling */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        /* Label Styling */
+        label {
+            font-size: 16px;
+            color: #a0a0a0;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Input Field Styling */
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            margin: 10px auto;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #ff6d00;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Button Hover Effect */
+        button:hover {
+            background-color: #ff8c42;
+        }
+
+        /* Divider Line */
+        hr {
+            border: 0.5px solid #333;
+            margin: 20px 0;
+        }
+
+        /* Paragraph Styling */
+        p {
+            font-size: 16px;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+
+        /* Message Styling */
+        .message {
+            color: #b3b3b3;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        /* Received Message Styling */
+        #receivedMessage {
+            color: #ffcc80;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WebSocket Game</h1>
+
+        <!-- Input Name -->
+        <div class="input-group">
+            <label for="name">Enter Your Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+
+        <!-- Create Game Button -->
+        <button id="create" onclick="createGame()">Create Game</button>
+
+        <div id="SessionGo">
+        <!-- Display Session ID -->
+            <p id="sessionID">No session created yet</p>
+
+            <!-- Go Button (Start Game) -->
+            <button onclick="startGame()">Go!</button>
+        </div>
+        <hr>
+
+        <!-- Join a Game -->
+        <p>Join a game</p>
+        <input type="text" id="joinSessionId" placeholder="Enter Session ID">
+        <button onclick="joinGame()">Join</button>
+
+        <!-- Uncomment for Messaging Features
+        <hr>
+        <div class="message" id="message"></div>
+
+        <p>Send a message to the server:</p>
+        <input type="text" id="messageInput" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send</button>
+
+        <p class="message">Received message from server:</p>
+        <p id="receivedMessage">No message received yet</p>
+        -->
+    </div>
+</body>
+</html>
