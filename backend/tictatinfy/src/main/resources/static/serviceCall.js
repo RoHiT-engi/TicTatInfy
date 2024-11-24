@@ -1,7 +1,7 @@
 
 let socket;
 
-async function fetchData(url) {
+export async function fetchData(url) {
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -25,7 +25,7 @@ async function fetchData(url) {
     }
 }
 
-async function sendData(url, payload) {
+export async function sendData(url, payload) {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -47,7 +47,7 @@ async function sendData(url, payload) {
     }
 }
 
-function createSocketChannel(sessionID){
+export function createSocketChannel(sessionID){
     socket = new WebSocket("ws://tictatinfy.onrender.com/connect?id="+sessionID);
     socket.onopen = function() {
         console.log("Connected to the WebSocket server.");
@@ -56,15 +56,11 @@ function createSocketChannel(sessionID){
     socket.onmessage = function(event) {
         let cleanedString = event.data;
         localStorage.setItem("lastPlayed",cleanedString.charAt(cleanedString.length -1,10));
-        console.log(cleanedString.charAt(cleanedString.length -1,10))
         cleanedString = cleanedString.split("]]")[0] + ']]';
-        console.log(cleanedString)
         const parsedArray = JSON.parse(cleanedString);
         const integerArray = parsedArray.map(row =>
             row.map(element => parseInt(element, 10))
         );
-        console.log("fdvdvdvv")
-        console.log(parsedArray);
         fillUpGrid(integerArray)
     };
 
@@ -74,15 +70,15 @@ function createSocketChannel(sessionID){
     };
 
     socket.onerror = function(error) {
-        console.error("WebSocket error: " + error);
+        console.error("WebSocket error: ");
+        console.log(error)
     };
 }
 
-function sendMessage(message) {
+export function sendMessage(message) {
     if (!message) {
         alert("Please enter a message to send.");
         return;
     }
-    console.log(socket);
     socket.send(message);
 }

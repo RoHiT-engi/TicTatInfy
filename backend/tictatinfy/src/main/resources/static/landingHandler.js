@@ -1,12 +1,13 @@
 
         // let BasseIP = import.meta.env.BasseIP; 
         let sessionId = '';
-        let BasseIP = 'https://tictatinfy.onrender.com/'
+        let BasseIP = 'https://tictatinfy.onrender.com'
+        // let BasseIP = 'http://localhost:8090/'
         let creatURI = BasseIP + '/create'
         let creatp2URI = BasseIP + '/createp2/'
         let fetchSessionURI = BasseIP + '/getSession/'
         
-        async function createGame() {
+        export async function createGame() {
             // Establish WebSocket connection
             const payload = { player1: document.getElementById("name").value };
             const res = await sendData(creatURI, payload);
@@ -18,7 +19,7 @@
         }
 
 
-        async function joinGame() {
+        export async function joinGame() {
             const joinSessionId = document.getElementById("joinSessionId").value;
             if (joinSessionId.trim() === "") {
                 alert("Please enter a session ID.");
@@ -38,7 +39,7 @@
             window.location.href = `index.html`;
         }
 
-        async function startGame() {
+        export async function startGame() {
             if (!sessionId) {
                 alert("You need to create or join a session first!");
                 return;
@@ -54,7 +55,7 @@
             window.location.href = `index.html`;
         }
 
-        function setCurrPlayer(name){
+        export function setCurrPlayer(name){
             if(name == localStorage.getItem("p1")){
                 localStorage.setItem("currName",'p1');
             }else if(name == localStorage.getItem("p2")){

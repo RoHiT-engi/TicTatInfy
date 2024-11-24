@@ -11,9 +11,28 @@
             window.location.replace("landing.html");
         }
     </script>
-    <script type="module" src="app.js"></script>
-    <script type="module" src="landingHandler.js"></script>
-    <script type="module" src="serviceCall.js"></script>
+    <script type="module">
+        import { myFunction,checkWin,initializePage,fillUpGrid,updateCell,currPlayerXorO} from './app.js';
+        window.myFunction = myFunction;
+        window.checkWin = checkWin;
+        window.initializePage = initializePage;
+        window.fillUpGrid = fillUpGrid;
+        window.updateCell = updateCell;
+        window.currPlayerXorO = currPlayerXorO;
+    </script>
+    <script type="module">
+        import { createGame,startGame,joinGame } from './landingHandler.js';
+        window.createGame = createGame;
+        window.startGame = startGame;
+        window.joinGame = joinGame;
+    </script>
+    <script type="module">
+        import { fetchData,createSocketChannel,sendData ,sendMessage} from './serviceCall.js';
+        window.fetchData = fetchData;
+        window.createSocketChannel = createSocketChannel;
+        window.sendData = sendData;
+        window.sendMessage = sendMessage;
+    </script>
 </head>
 <body>
     <!-- Game Title -->

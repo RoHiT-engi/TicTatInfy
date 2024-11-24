@@ -27,25 +27,22 @@ class Queue {
         return this.items;
     }
 }
-const queue = new Queue()
+var queue = new Queue()
 
-let str = queue.printQueue;
+// let str = queue.printQueue;
 let erase = ""
 
-function myFunction(id) {
+export function myFunction(id) {
     if(currPlayerXorO() == "X" && document.getElementById(id).innerHTML == "" && localStorage.getItem("lastPlayed") == "O")
     {
         document.getElementById(id).innerHTML = "X";
         queue.enqueue(id);
-        console.log("andhar hu")
         localStorage.setItem("lastPlayed",'0')
     }
     else if(currPlayerXorO() == "O" && document.getElementById(id).innerHTML == "" && localStorage.getItem("lastPlayed") == "X")
     {
         document.getElementById(id).innerHTML = "O";
         queue.enqueue(id);
-        
-        console.log("andhar hu dcxsdc")
         localStorage.setItem("lastPlayed",'1')
     }                                    
     if(queue.size() > 6)
@@ -55,10 +52,9 @@ function myFunction(id) {
         document.getElementById(erase).innerHTML = "";
     }
     checkWin();
-    console.log(str)  
 }
 
-function checkWin(){
+export function checkWin(){
 // [0,1,2]
 if((document.getElementById("demo0").innerHTML == document.getElementById("demo1").innerHTML) && document.getElementById("demo1").innerHTML == document.getElementById("demo2").innerHTML && document.getElementById("demo1").innerHTML !="" )
 {
@@ -110,14 +106,15 @@ if((document.getElementById("demo2").innerHTML == document.getElementById("demo4
     
 }
 
-async function initializePage(){
+export async function initializePage(){
     createSocketChannel(localStorage.getItem("sessionID"));
     const gridData = JSON.parse(localStorage.getItem('game'));
     await fillUpGrid(gridData);
 }
 
-async function fillUpGrid(gridData){
+export async function fillUpGrid(gridData){
     var i = 0;
+    queue = new Queue()
     gridData.forEach(element => {
         element.forEach(elm =>{
             if(elm==0){ 
@@ -134,7 +131,7 @@ async function fillUpGrid(gridData){
     });
 }
 
-function updateCell(id,value){
+export function updateCell(id,value){
     if(flag){
         alert("Game is Already over");
         return;
@@ -150,13 +147,12 @@ function updateCell(id,value){
     if(localStorage.getItem("lastPlayed") == '-1' && currPlayerXorO()=='X'){
         sendMessage(i+"/"+j+"/"+1);
     }
-    console.log(currPlayerXorO()+" "+localStorage.getItem("lastPlayed"))
     if(value == -1){
         sendMessage(i+"/"+j+"/"+-1)
     }
     // console.log(lastNumber+" sdsd"+i+" "+j);
 }
-function currPlayerXorO(){
+export function currPlayerXorO(){
     if(localStorage.getItem("currName") == 'p1'){
         return "X";
     }else if(localStorage.getItem("currName") == 'p2'){
