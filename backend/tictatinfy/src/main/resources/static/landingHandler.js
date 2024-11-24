@@ -2,7 +2,7 @@
         // let BasseIP = import.meta.env.BasseIP; 
         let sessionId = '';
         let BasseIP = 'https://tictatinfy.onrender.com'
-        // let BasseIP = 'http://localhost:8090/'
+        // let BasseIP = 'http://localhost:8090'
         let creatURI = BasseIP + '/create'
         let creatp2URI = BasseIP + '/createp2/'
         let fetchSessionURI = BasseIP + '/getSession/'
