@@ -48,7 +48,7 @@ async function sendData(url, payload) {
 }
 
 function createSocketChannel(sessionID){
-    socket = new WebSocket("ws://localhost:8090/connect?id="+sessionID);
+    socket = new WebSocket("ws://tictatinfy.onrender.com/connect?id="+sessionID);
     socket.onopen = function() {
         console.log("Connected to the WebSocket server.");
     };

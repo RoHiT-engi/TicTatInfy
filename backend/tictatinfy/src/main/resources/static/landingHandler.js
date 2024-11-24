@@ -1,8 +1,7 @@
 
         // let BasseIP = import.meta.env.BasseIP; 
-        console.log(import.meta.env.VITE_API_BASE_URL);
         let sessionId = '';
-        let BasseIP = 'http://localhost:8090'
+        let BasseIP = 'https://tictatinfy.onrender.com/'
         let creatURI = BasseIP + '/create'
         let creatp2URI = BasseIP + '/createp2/'
         let fetchSessionURI = BasseIP + '/getSession/'
